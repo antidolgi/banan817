@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍌 Банановое агентство 817 — создание сайтов, автоматизация, контент</title>
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (иконки) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Наш CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Прелоадер -->
+    <div id="preloader">
+        <div class="preloader__content">
+            <img src="images/banana.png" alt="Банан" class="preloader__banana" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <i class="fas fa-banana preloader__banana-fallback" style="display: none; font-size: 80px; color: #f1c40f;"></i>
+            <div class="preloader__numbers">8 1 7</div>
+        </div>
+    </div>
+
+    <!-- Фоновые вращающиеся эмодзи (будут видны только в тёмной теме) -->
+    <div class="bg-emoji"></div>
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <div class="logo">🍌 Банановое агентство 817</div>
+                <nav class="nav">
+                    <a href="#services">Услуги</a>
+                    <a href="#portfolio">Портфолио</a>
+                    <a href="#studio">Студия 817</a>
+                    <a href="#contact">Контакты</a>
+                </nav>
+                <div class="header__promo">Промокод: СТУДИО817</div>
+                <div class="theme-switcher" id="theme-toggle">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Мобильное меню -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#services" onclick="closeMenu()">Услуги</a>
+        <a href="#portfolio" onclick="closeMenu()">Портфолио</a>
+        <a href="#studio" onclick="closeMenu()">Студия 817</a>
+        <a href="#contact" onclick="closeMenu()">Контакты</a>
+        <div class="mobile-menu__promo">Промокод: СТУДИО817</div>
+    </div>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero__content">
+                <h1 class="hero__title animate-on-scroll">Создаём цифровые продукты, которые работают</h1>
+                <p class="hero__subtitle animate-on-scroll">Веб-разработка, автоматизация, дизайн и контент — под ключ. С банановым настроением и без лишней бюрократии.</p>
+                <div class="hero__btns animate-on-scroll">
+                    <a href="#portfolio" class="btn btn-primary">Смотреть работы</a>
+                    <a href="#contact" class="btn btn-outline">Обсудить проект</a>
+                </div>
+                <div class="hero__qr-note animate-on-scroll">
+                    <i class="fas fa-qrcode"></i> Наведите камеру на QR-код в студии и получите скидку 10%
+                </div>
+            </div>
+        </div>
+        <div class="hero__line"></div>
+    </section>
+
+    <!-- Счётчики достижений -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item animate-on-scroll">
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">проектов</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <div class="stat-number" data-target="10">0</div>
+                    <div class="stat-label">лет опыта команды</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">постоянных клиентов</div>
+                </div>
+                <div class="stat-item animate-on-scroll">
+                    <div class="stat-number" data-target="5">0</div>
+                    <div class="stat-label">регионов присутствия</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Что мы делаем</h2>
+            <p class="section-subtitle animate-on-scroll">Собрали для вас все компетенции в одном месте</p>
+            <div class="services__grid">
+                <div class="service-card animate-on-scroll">
+                    <i class="fas fa-code service-card__icon"></i>
+                    <h3>Сайты и приложения</h3>
+                    <p>Лендинги, интернет-магазины, корпоративные порталы, мобильные приложения. Любая сложность.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <i class="fas fa-robot service-card__icon"></i>
+                    <h3>Автоматизация и боты</h3>
+                    <p>Чат-боты для Telegram, ВК, WhatsApp. Автоответчики, интеграции с CRM.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <i class="fas fa-paint-brush service-card__icon"></i>
+                    <h3>Дизайн и брендинг</h3>
+                    <p>Логотипы, брендбуки, инфографика, обучающие материалы — всё, что выделит вас среди конкурентов.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <i class="fas fa-camera service-card__icon"></i>
+                    <h3>Фото и видео</h3>
+                    <p>Предметная съёмка, рекламные ролики, контент для соцсетей — в собственной фотостудии.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <i class="fas fa-chart-line service-card__icon"></i>
+                    <h3>Продвижение</h3>
+                    <p>SEO, таргетированная реклама, SMM, написание текстов — приводим целевых клиентов.</p>
+                </div>
+                <div class="service-card animate-on-scroll">
+                    <i class="fas fa-gavel service-card__icon"></i>
+                    <h3>Юридическое сопровождение</h3>
+                    <p>Помощь в оформлении документов, договоров, защита интеллектуальной собственности.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Портфолио -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Наши проекты</h2>
+            <p class="section-subtitle animate-on-scroll">Сайты, приложения, дизайн — всё, чем мы гордимся</p>
+            <div class="portfolio__grid">
+                <!-- Eurolos -->
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-card__image" style="background: #1a4d2e;">
+                        <i class="fas fa-water" style="font-size: 48px; color: #fff;"></i>
+                    </div>
+                    <div class="portfolio-card__content">
+                        <h4>Eurolos — септики под ключ</h4>
+                        <p>Лендинг с онлайн-калькулятором. Официальный дилер.</p>
+                        <a href="https://antidolgi.github.io/eurolos35green/" target="_blank" class="portfolio-card__link">Посмотреть <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- Сад35 -->
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-card__image" style="background: #2e7d5e;">
+                        <i class="fas fa-leaf" style="font-size: 48px; color: #fff;"></i>
+                    </div>
+                    <div class="portfolio-card__content">
+                        <h4>Сад35 — благоустройство</h4>
+                        <p>Сайт-визитка для услуг по озеленению.</p>
+                        <a href="https://antidolgi.github.io/sad35/" target="_blank" class="portfolio-card__link">Посмотреть <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- Арендич -->
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-card__image" style="background: #b35e1a;">
+                        <i class="fas fa-car" style="font-size: 48px; color: #fff;"></i>
+                    </div>
+                    <div class="portfolio-card__content">
+                        <h4>Арендич — сеть автопроката</h4>
+                        <p>Сайт с личными кабинетами и базой данных. Автоматизация.</p>
+                        <a href="http://arendich.internet35.ru/" target="_blank" class="portfolio-card__link">Посмотреть <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- АйдаЮрист -->
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-card__image" style="background: #2a2a3a;">
+                        <i class="fas fa-gavel" style="font-size: 48px; color: #fff;"></i>
+                    </div>
+                    <div class="portfolio-card__content">
+                        <h4>АйдаЮрист — юридическая помощь</h4>
+                        <p>Сайт для привлечения клиентов.</p>
+                        <a href="https://xn--80aalrc8bii8h.xn--p1ai/" target="_blank" class="portfolio-card__link">Посмотреть <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- Банкротство35 -->
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-card__image" style="background: #4a2a5a;">
+                        <i class="fas fa-file-invoice" style="font-size: 48px; color: #fff;"></i>
+                    </div>
+                    <div class="portfolio-card__content">
+                        <h4>Банкротство35 — списание долгов</h4>
+                        <p>Посадочная страница для сбора заявок.</p>
+                        <a href="https://xn--35-6kcdg1cujbrmlb.xn--p1ai/" target="_blank" class="portfolio-card__link">Посмотреть <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- АнтиДолги24 -->
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-card__image" style="background: #1a4a6e;">
+                        <i class="fas fa-balance-scale" style="font-size: 48px; color: #fff;"></i>
+                    </div>
+                    <div class="portfolio-card__content">
+                        <h4>АнтиДолги24 — юридический портал</h4>
+                        <p>Экспертный сайт с юридической информацией.</p>
+                        <a href="https://antidolgi24.ru/" target="_blank" class="portfolio-card__link">Посмотреть <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- Группа ВК -->
+                <div class="portfolio-card animate-on-scroll">
+                    <div class="portfolio-card__image" style="background: #4a6c8f;">
+                        <i class="fab fa-vk" style="font-size: 48px; color: #fff;"></i>
+                    </div>
+                    <div class="portfolio-card__content">
+                        <h4>Студия 817 ВКонтакте</h4>
+                        <p>Наше сообщество с новостями и кейсами.</p>
+                        <a href="https://vk.com/studio817" target="_blank" class="portfolio-card__link">Перейти <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как мы работаем -->
+    <section class="work-process">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Как мы работаем</h2>
+            <p class="section-subtitle animate-on-scroll">Без лишней бюрократии, но с банановым настроением</p>
+            <div class="process-grid">
+                <div class="process-step animate-on-scroll">
+                    <div class="process-step__image">
+                        <img src="images/step1.png" alt="Анализ" width="80" height="80" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <i class="fas fa-search" style="display: none; font-size: 48px; color: #f1c40f;"></i>
+                    </div>
+                    <h3>1. Анализ</h3>
+                    <p>Изучаем ваш бизнес, конкурентов и чистим бананы для ясности мысли.</p>
+                </div>
+                <div class="process-step animate-on-scroll">
+                    <div class="process-step__image">
+                        <img src="images/step2.png" alt="Разработка" width="80" height="80" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <i class="fas fa-laptop-code" style="display: none; font-size: 48px; color: #f1c40f;"></i>
+                    </div>
+                    <h3>2. Разработка</h3>
+                    <p>Рисуем макеты, пишем код и добавляем щепотку автоматизации.</p>
+                </div>
+                <div class="process-step animate-on-scroll">
+                    <div class="process-step__image">
+                        <img src="images/step3.png" alt="Запуск" width="80" height="80" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <i class="fas fa-rocket" style="display: none; font-size: 48px; color: #f1c40f;"></i>
+                    </div>
+                    <h3>3. Запуск</h3>
+                    <p>Тестируем, запускаем и отправляем банановую ракету в небо.</p>
+                </div>
+                <div class="process-step animate-on-scroll">
+                    <div class="process-step__image">
+                        <img src="images/step4.png" alt="Поддержка" width="80" height="80" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <i class="fas fa-headset" style="display: none; font-size: 48px; color: #f1c40f;"></i>
+                    </div>
+                    <h3>4. Поддержка</h3>
+                    <p>Всегда на связи, помогаем развиваться и доедать бананы.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Клиенты о нас</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="testimonial-text">«Команда сделала нам сайт, который реально продаёт. Особенно ценно, что они предложили добавить калькулятор подбора септика — это сразу увеличило количество заявок.»</p>
+                    <div class="testimonial-author">
+                        <i class="fas fa-user-circle" style="font-size: 40px; color: #f1c40f;"></i>
+                        <div>
+                            <h4>Представитель Eurolos</h4>
+                            <p>Вологодская область</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="testimonial-text">«У нас была сложная задача — сделать единую базу для компаний по аренде авто по всей России. Ребята справились отлично, предложили автоматизацию и личные кабинеты.»</p>
+                    <div class="testimonial-author">
+                        <i class="fas fa-user-circle" style="font-size: 40px; color: #f1c40f;"></i>
+                        <div>
+                            <h4>Руководитель проекта «Арендич»</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="testimonial-text">«Работаем с командой уже несколько лет. Они делают сайты для наших региональных проектов, всегда быстро и с учётом юридической специфики. Надёжные партнёры.»</p>
+                    <div class="testimonial-author">
+                        <i class="fas fa-user-circle" style="font-size: 40px; color: #f1c40f;"></i>
+                        <div>
+                            <h4>Партнёр юридической компании</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Студия 817 -->
+    <section id="studio" class="studio">
+        <div class="container">
+            <div class="studio__inner">
+                <div class="studio__content animate-on-scroll">
+                    <h2 class="section-title" style="text-align: left;">Студия 817</h2>
+                    <p class="studio__text">Наша собственная фотостудия — место, где рождается визуальный контент. Здесь мы снимаем товары, проводим встречи с клиентами и просто заряжаемся атмосферой. Заходите в гости!</p>
+                    <div class="studio__features">
+                        <div class="studio__feature"><i class="fas fa-check"></i> Профессиональный свет</div>
+                        <div class="studio__feature"><i class="fas fa-check"></i> Циклорама</div>
+                        <div class="studio__feature"><i class="fas fa-check"></i> Гримёрка</div>
+                        <div class="studio__feature"><i class="fas fa-check"></i> Уютная зона ожидания</div>
+                    </div>
+                    <div class="studio__qr">
+                        <i class="fas fa-qrcode"></i> Наведите камеру на QR в студии — получите промокод СТУДИО817 на скидку 10%
+                    </div>
+                    <a href="#" class="btn btn-primary">Записаться на съёмку</a>
+                </div>
+                <div class="studio__image animate-on-scroll">
+                    <img src="https://via.placeholder.com/600x400/2a2a3a/ffffff?text=Studio+817+Photo" alt="Studio 817" style="max-width:100%; border-radius: 20px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Давайте обсудим ваш проект</h2>
+            <div class="contact__inner">
+                <div class="contact__info animate-on-scroll">
+                    <div class="contact__item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:hello@817.digital">hello@817.digital</a>
+                    </div>
+                    <div class="contact__item">
+                        <i class="fas fa-phone-alt"></i>
+                        <a href="tel:+79957886668">+7-995-788-66-68</a> (основной)
+                    </div>
+                    <div class="contact__item">
+                        <i class="fas fa-phone-alt"></i>
+                        <a href="tel:+79951194911">+7-995-119-4-911</a> <span style="color: #f1c40f;">⚡ Служба спасения бизнеса</span>
+                    </div>
+                    <div class="contact__item">
+                        <i class="fab fa-telegram"></i>
+                        <a href="https://t.me/studio817" target="_blank">@studio817</a>
+                    </div>
+                    <div class="contact__item">
+                        <i class="fab fa-vk"></i>
+                        <a href="https://vk.com/studio817" target="_blank">vk.com/studio817</a>
+                    </div>
+                    <div class="contact__item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>г. Вологда, ул. Чернышевского, 120Г</span>
+                    </div>
+                    <div class="contact__social">
+                        <a href="https://t.me/studio817" target="_blank"><i class="fab fa-telegram"></i></a>
+                        <a href="https://vk.com/studio817" target="_blank"><i class="fab fa-vk"></i></a>
+                        <a href="https://github.com/antidolgi" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="contact__map animate-on-scroll">
+                    <iframe src="https://yandex.ru/map-widget/v1/?ll=39.888123%2C59.220123&z=17&l=map&pt=39.888123,59.220123,pm2rdm" width="100%" height="300" frameborder="0" allowfullscreen="true" style="border-radius: 20px;"></iframe>
+                </div>
+            </div>
+            <form class="contact__form animate-on-scroll" id="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
+                <input type="text" name="name" placeholder="Ваше имя" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="message" rows="4" placeholder="Расскажите о проекте" required></textarea>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 🍌 Банановое агентство 817 — Студия цифровых продуктов. Промокод СТУДИО817 действует на все услуги.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
