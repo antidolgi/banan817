@@ -28,38 +28,44 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* Фоновые вращающиеся эмодзи */
+/* Фоновые вращающиеся эмодзи — ИСПРАВЛЕННЫЙ ВАРИАНТ */
 .bg-emoji {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: none; /* Чтобы фон не мешал нажимать на кнопки */
     z-index: -1;
-    opacity: 0.1;
+    opacity: 0.15; /* Немного прозрачнее, чтобы не перебивать контент */
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.bg-emoji::before,
-.bg-emoji::after {
+
+.bg-emoji::before {
     content: "🍌 8 1 7 🍌 8 1 7 🍌 8 1 7";
     position: absolute;
-    font-size: 80px;
+    font-size: 15vw; /* Размер относительно ширины экрана */
     white-space: nowrap;
-    color: #e74c3c; /* красный */
+    color: #e74c3c; /* Красный */
     font-weight: bold;
-    animation: rotateBg 60s linear infinite;
+    animation: rotateBg 40s linear infinite;
+    text-shadow: 0 0 20px rgba(231, 76, 60, 0.3);
+    width: 100%;
+    text-align: center;
 }
-.bg-emoji::after {
-    content: "8 1 7 🍌 8 1 7 🍌 8 1 7 🍌";
-    top: 20%;
-    left: -20%;
-    font-size: 100px;
-    animation: rotateBg 50s linear reverse infinite;
-}
+
 @keyframes rotateBg {
-    from { transform: rotate(0deg) translateY(-10%) rotate(0deg); }
-    to { transform: rotate(360deg) translateY(-10%) rotate(-360deg); }
+    from { transform: rotate(0deg) scale(1); }
+    to { transform: rotate(360deg) scale(1.2); }
+}
+
+/* Для светлой темы */
+body.light-theme .bg-emoji::before {
+    opacity: 0.3;
+    color: #c0392b;
 }
 
 /* Прелоадер */
