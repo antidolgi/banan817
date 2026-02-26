@@ -83,8 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
-            themeToggle.querySelector('i').classList.toggle('fa-sun');
-            themeToggle.querySelector('i').classList.toggle('fa-moon');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.toggle('fa-sun');
+            icon.classList.toggle('fa-moon');
         });
     }
 
@@ -109,56 +110,110 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.querySelector('i').classList.add('fa-bars');
         }
     });
-// ===== Летающий банан за курсором =====
-(function() {
-    const banana = document.getElementById('flying-banana');
-    if (!banana) return;
 
-    // Показываем банан после исчезновения прелоадера
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.attributeName === 'class' && preloader.classList.contains('hidden')) {
-                    banana.style.display = 'block';
-                    observer.disconnect();
-                }
+    // ========== Летающий банан с ранцем ==========
+    (function() {
+        const banana = document.getElementById('flying-banana');
+        if (!banana) return;
+
+        // Показываем банан после исчезновения прелоадера
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            const observerPreload = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'class' && preloader.classList.contains('hidden')) {
+                        banana.style.display = 'block';
+                        observerPreload.disconnect();
+                    }
+                });
             });
-        });
-        observer.observe(preloader, { attributes: true });
-    } else {
-        banana.style.display = 'block';
-    }
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let currentX = mouseX - 30; // центрируем (половина ширины 60/2)
-    let currentY = mouseY - 30;
-    let rafId = null;
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        if (!rafId) {
-            rafId = requestAnimationFrame(updatePosition);
+            observerPreload.observe(preloader, { attributes: true });
+        } else {
+            banana.style.display = 'block';
         }
-    });
 
-    function updatePosition() {
-        // Плавно приближаемся к курсору
-        currentX += (mouseX - 30 - currentX) * 0.1;
-        currentY += (mouseY - 30 - currentY) * 0.1;
+        // Настройки следования за мышью
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let currentX = mouseX - 30; // центрируем (половина ширины 60/2)
+        let currentY = mouseY - 30;
+        let rafId = null;
+        let isFollowingMouse = true;  // Флаг: следовать за мышью или сидеть на кнопке
+        let isSitting = false;         // Дополнительный флаг, чтобы не дёргаться
 
+        // Обработчик движения мыши
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (!rafId && isFollowingMouse) {
+                rafId = requestAnimationFrame(updatePosition);
+            }
+        });
+
+        function updatePosition() {
+            if (isFollowingMouse) {
+                // Плавное движение к курсору
+                currentX += (mouseX - 30 - currentX) * 0.1;
+                currentY += (mouseY - 30 - currentY) * 0.1;
+                banana.style.left = currentX + 'px';
+                banana.style.top = currentY + 'px';
+            }
+            rafId = null;
+        }
+
+        // Функция для посадки банана рядом с кнопкой
+        function landNearButton() {
+            isFollowingMouse = false;
+            const submitButton = document.querySelector('.contact__form button');
+            if (!submitButton) return;
+            const rect = submitButton.getBoundingClientRect();
+            // Банан сядет слева сверху от кнопки с отступом
+            const targetX = rect.left - 40;
+            const targetY = rect.top - 30;
+            // Плавно перемещаем
+            banana.style.transition = 'left 0.6s ease, top 0.6s ease';
+            banana.style.left = targetX + 'px';
+            banana.style.top = targetY + 'px';
+            // После окончания анимации вернём transition для движения за мышью (если вдруг вернёмся)
+            setTimeout(() => {
+                banana.style.transition = 'left 0.1s linear, top 0.1s linear';
+            }, 600);
+        }
+
+        // Функция возврата к курсору
+        function returnToCursor() {
+            isFollowingMouse = true;
+            // Обновим currentX/Y, чтобы банан начал двигаться от текущей позиции
+            const rect = banana.getBoundingClientRect();
+            currentX = rect.left;
+            currentY = rect.top;
+            // Запустим цикл анимации
+            if (!rafId) {
+                rafId = requestAnimationFrame(updatePosition);
+            }
+        }
+
+        // Следим за появлением формы
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            const observerContact = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Форма видна – садим банан
+                        landNearButton();
+                    } else {
+                        // Форма скрылась – возвращаем к курсору
+                        returnToCursor();
+                    }
+                });
+            }, { threshold: 0.3 });
+            observerContact.observe(contactSection);
+        }
+
+        // Ставим в начальную позицию (центр экрана)
+        currentX = window.innerWidth / 2 - 30;
+        currentY = window.innerHeight / 2 - 30;
         banana.style.left = currentX + 'px';
         banana.style.top = currentY + 'px';
-
-        rafId = null;
-    }
-
-    // Ставим в начальную позицию (центр экрана)
-    currentX = window.innerWidth / 2 - 30;
-    currentY = window.innerHeight / 2 - 30;
-    banana.style.left = currentX + 'px';
-    banana.style.top = currentY + 'px';
-})();
+    })();
 });
