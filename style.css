@@ -748,3 +748,37 @@ body.light-theme .bg-emoji {
         font-size: 1.2rem;
     }
 }
+/* ===== Летающий банан ===== */
+.flying-banana {
+    position: fixed;
+    width: 60px;           /* Уменьшаем картинку до 60px */
+    height: 60px;
+    pointer-events: none;  /* Чтобы банан не мешал кликать по кнопкам */
+    z-index: 9999;
+    transition: transform 0.1s linear; /* Плавность движения */
+    will-change: left, top;
+    filter: drop-shadow(0 0 15px rgba(241, 196, 15, 0.7));
+}
+
+.flying-banana img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;   /* Сохраняем пропорции */
+    animation: flyAndGlow 0.8s infinite alternate; /* Парение и свечение */
+}
+
+/* Анимация полёта (покачивание + свечение ранца) */
+@keyframes flyAndGlow {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        filter: drop-shadow(0 0 5px #f39c12);
+    }
+    50% {
+        transform: translateY(-5px) rotate(2deg);
+        filter: drop-shadow(0 0 15px #e74c3c);
+    }
+    100% {
+        transform: translateY(5px) rotate(-2deg);
+        filter: drop-shadow(0 0 5px #f1c40f);
+    }
+}
