@@ -109,4 +109,56 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.querySelector('i').classList.add('fa-bars');
         }
     });
+// ===== Летающий банан за курсором =====
+(function() {
+    const banana = document.getElementById('flying-banana');
+    if (!banana) return;
+
+    // Показываем банан после исчезновения прелоадера
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class' && preloader.classList.contains('hidden')) {
+                    banana.style.display = 'block';
+                    observer.disconnect();
+                }
+            });
+        });
+        observer.observe(preloader, { attributes: true });
+    } else {
+        banana.style.display = 'block';
+    }
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let currentX = mouseX - 30; // центрируем (половина ширины 60/2)
+    let currentY = mouseY - 30;
+    let rafId = null;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!rafId) {
+            rafId = requestAnimationFrame(updatePosition);
+        }
+    });
+
+    function updatePosition() {
+        // Плавно приближаемся к курсору
+        currentX += (mouseX - 30 - currentX) * 0.1;
+        currentY += (mouseY - 30 - currentY) * 0.1;
+
+        banana.style.left = currentX + 'px';
+        banana.style.top = currentY + 'px';
+
+        rafId = null;
+    }
+
+    // Ставим в начальную позицию (центр экрана)
+    currentX = window.innerWidth / 2 - 30;
+    currentY = window.innerHeight / 2 - 30;
+    banana.style.left = currentX + 'px';
+    banana.style.top = currentY + 'px';
+})();
 });
