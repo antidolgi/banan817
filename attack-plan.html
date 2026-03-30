@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>План Атаки | Дети Грома</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #e94560;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #e94560;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #aaa;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #e94560;
+        }
+
+        .section-number {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .section h2 {
+            font-size: 1.5em;
+            color: #e94560;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .point {
+            background: rgba(233, 69, 96, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 3px solid #e94560;
+        }
+
+        .point-title {
+            font-weight: bold;
+            color: #e94560;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .point-text {
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        .warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .warning-title {
+            color: #ffc107;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .warning-text {
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        .important {
+            background: rgba(233, 69, 96, 0.2);
+            border: 2px solid #e94560;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .important-text {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #e94560;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .footer-text {
+            font-size: 1.2em;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .footer-action {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e94560;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .point {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+  <div class="countdown-container">
+    <div class="countdown-title">ДО НАЧАЛА ОПЕРАЦИИ ОСТАЛОСЬ</div>
+    <div class="countdown-timer" id="countdown">
+        <div class="countdown-item">
+            <div class="countdown-value" id="days">00</div>
+            <div class="countdown-label">Дней</div>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+            <div class="countdown-value" id="hours">00</div>
+            <div class="countdown-label">Часов</div>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+            <div class="countdown-value" id="minutes">00</div>
+            <div class="countdown-label">Минут</div>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+            <div class="countdown-value" id="seconds">00</div>
+            <div class="countdown-label">Секунд</div>
+        </div>
+    </div>
+    <div class="countdown-date">30 марта 2026 | 19:00</div>
+</div>
+    <div class="container">
+        <div class="header">
+            <h1>План Атаки</h1>
+            <div class="subtitle">Альянс Дети Грома | Возврат города</div>
+        </div>
+
+        <div class="section">
+            <div class="section-number">ЧАСТЬ 1/3</div>
+            <h2>План атаки</h2>
+            
+            <div class="point">
+                <div class="point-title">Основной план</div>
+                <div class="point-text">
+                    Как только все стороны готовы — ВСЕ наши нападают на ГОРОД. Сначала отбираем его. В это время союзники (TMPT) штурмуют базу UD00, не давая им подойти к нам. Как только возвращаем город — сжигаем всех юдушников рядом.
+                </div>
+            </div>
+
+            <div class="point">
+                <div class="point-title">Распределение ролей</div>
+                <div class="point-text">
+                    СИЛЬНЫЕ идут штурмами на СИЛЬНЫХ противников. СЛАБЫЕ участники нападают в одиночку на СЛАБЫХ или создают штурмы. Не путаемся — каждый занимается только своей задачей.
+                </div>
+            </div>
+
+            <div class="point">
+                <div class="point-title">Энергия</div>
+                <div class="point-text">
+                    Если кончается энергия — пишем в чат клана и участвуем в штурмах других участников.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-number">ЧАСТЬ 2/3</div>
+            <h2>Правила по уровням и штурмам</h2>
+            
+            <div class="warning">
+                <div class="warning-title">⚠ Правила по уровням</div>
+                <div class="warning-text">
+                    <strong>Уровень до 14 включительно</strong> — на противников выше вашего уровня НЕ ИДЁМ!<br><br>
+                    <strong>ВСЕ вторые отряды</strong> — кидаем на слабых.<br><br>
+                    <strong>ТОЛЬКО первые отряды</strong> (уровень выше 15) — идут на сильных противников.
+                </div>
+            </div>
+
+            <div class="point">
+                <div class="point-title">Создание штурмов</div>
+                <div class="point-text">
+                    При создании штурма автоматически добавляются оффлайн-игроки, которые находятся далеко. Создатель штурма их не ждёт — выкидывает (красная стрелка возле игрока). Если время изменилось на длительное — создаём штурм заново.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-number">ЧАСТЬ 3/3</div>
+            <h2>Добивание и логика боя</h2>
+            
+            <div class="point">
+                <div class="point-title">Добивание противника</div>
+                <div class="point-text">
+                    Когда пошли штурмом и после атаки видите, что противник горит и не показывает шкалу здоровья — его нужно добить. Не обязательно штурмом: когда отряд уходит, нажмите на домик и этим же отрядом добейте до конца. Всех обязательно добивать до конца. Следите за здоровьем и количеством солдат.
+                </div>
+            </div>
+
+            <div class="point">
+                <div class="point-title">Раненые и восстановление</div>
+                <div class="point-text">
+                    Если много раненых — лучше дойдите до дома, отправьте лечиться и снова в бой.
+                </div>
+            </div>
+
+            <div class="important">
+                <div class="important-text">
+                    Пример расчёта: ~11 000 солдат, вместимость 1 105 = примерно 10 атак. Считайте свои силы!
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">
+                Все, кто прочитал — безоговорочно ставим реакцию в чат!
+            </div>
+            <div class="footer-action">
+                Вопросы по целям и штурмам — писать СЕЙЧАС!
+            </div>
+        </div>
+    </div>
+</body>
+</html>
