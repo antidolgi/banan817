@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дети Грома | Сервер 110 | Last Asylum</title>
+    <style>
+        /* === БАЗОВЫЕ СТИЛИ === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        a { color: #e94560; text-decoration: none; transition: 0.3s; }
+        a:hover { color: #ff6b6b; }
+        
+        /* === ШАПКА === */
+        header {
+            background: rgba(233, 69, 96, 0.15);
+            border-bottom: 2px solid #e94560;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e94560;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo span { color: #fff; }
+        .server-badge {
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 5px rgba(233,69,96,0.5); }
+            to { box-shadow: 0 0 20px rgba(233,69,96,0.8); }
+        }
+        
+        /* === НАВИГАЦИЯ === */
+        nav { display: flex; gap: 10px; flex-wrap: wrap; }
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(233,69,96,0.5);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: 0.3s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: #e94560;
+            border-color: #e94560;
+        }
+        .nav-btn.urgent {
+            background: rgba(255,69,69,0.3);
+            border-color: #ff4545;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,69,69,0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255,69,69,0); }
+        }
+        
+        /* === КОНТЕЙНЕР === */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 25px;
+        }
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            nav { justify-content: center; }
+        }
+        
+        /* === БОКОВОЕ МЕНЮ === */
+        .sidebar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        .sidebar h3 {
+            color: #e94560;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(233,69,96,0.3);
+        }
+        .sidebar-menu { list-style: none; }
+        .sidebar-menu li { margin-bottom: 8px; }
+        .sidebar-menu a {
+            display: block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #ccc;
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(233,69,96,0.2);
+            color: #fff;
+            padding-left: 20px;
+        }
+        
+        /* === ОСНОВНОЙ КОНТЕНТ === */
+        .main-content { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 25px; }
+        
+        /* === СЕКЦИИ (страницы) === */
+        .page { display: none; animation: fadeIn 0.4s; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* === СРОЧНЫЕ НОВОСТИ === */
+        .urgent-banner {
+            background: linear-gradient(135deg, #ff4545, #e94560);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid #fff;
+        }
+        .urgent-banner h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .urgent-banner .time {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-left: auto;
+        }
+        
+        /* === КАРТОЧКА НОВОСТИ === */
+        .news-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e94560;
+        }
+        .news-card h4 {
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+        .news-meta {
+            font-size: 0.85em;
+            color: #888;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        /* === ПРАВИЛА === */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .rule-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .rule-card h4 {
+            color: #e94560;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(233,69,96,0.3);
+            padding-bottom: 10px;
+        }
+        .rule-card ul {
+            padding-left: 20px;
+            color: #ccc;
+        }
+        .rule-card li { margin-bottom: 8px; }
+        .rule-card code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #e94560;
+            font-family: monospace;
+        }
+        
+        /* === РУКОВОДСТВО === */
+        .leaders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .leader-card {
+            background: rgba(233,69,96,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(233,69,96,0.3);
+        }
+        .leader-card .role {
+            color: #e94560;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .leader-card .name {
+            font-size: 1.2em;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .leader-card .server {
+            font-size: 0.85em;
+            color: #888;
+        }
+        
+        /* === РАНГИ === */
+        .ranks-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .ranks-table th, .ranks-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .ranks-table th {
+            color: #e94560;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        .ranks-table tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        .rank-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+        .rank-r1 { background: #e94560; color: #fff; }
+        .rank-r2 { background: #45b7d1; color: #fff; }
+        .rank-r3 { background: #4ecdc4; color: #000; }
+        
+        /* === ССЫЛКИ === */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .link-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid rgba(233,69,96,0.3);
+            transition: 0.3s;
+        }
+        .link-card:hover {
+            border-color: #e94560;
+            transform: translateY(-3px);
+        }
+        .link-card .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .link-card .platform {
+            color: #e94560;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        /* === ФОРМА НОВОСТИ (для админа) === */
+        .admin-form {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .admin-form h3 {
+            color: #e94560;
+            margin-bottom: 20px;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 1em;
+        }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .btn-submit {
+            background: #e94560;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-submit:hover { background: #ff6b6b; }
+        
+        /* === ЛОГИН ДЛЯ АДМИНА === */
+        .login-form {
+            max-width: 400px;
+            margin: 50px auto;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+        }
+        
+        /* === ФУТЕР === */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .server-footer {
+            color: #e94560;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        /* === УТИЛИТЫ === */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .badge.urgent { background: #ff4545; color: #fff; }
+        .badge.event { background: #4ecdc4; color: #000; }
+        .badge.info { background: #45b7d1; color: #fff; }
+        
+        .text-center { text-align: center; }
+        .mt-20 { margin-top: 20px; }
+        .hidden { display: none !important; }
+        
+        /* === СЕРВЕР-СЕЛЕКТОР (для будущего) === */
+        .server-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .server-selector select {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(233,69,96,0.5);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <header>
+        <div class="header-content">
+            <div class="logo">Дети <span>Грома</span></div>
+            <div class="server-selector">
+                <span style="color:#888;font-size:0.9em;">Сервер:</span>
+                <select id="serverSelect" disabled>
+                    <option value="110" selected>🔥 SRV 110 (текущий)</option>
+                    <option value="future" disabled>🔜 Другие сервера (скоро)</option>
+                </select>
+            </div>
+            <div class="server-badge">SRV 110</div>
+            <nav>
+                <button class="nav-btn active" onclick="showPage('home')">🏠 Главная</button>
+                <button class="nav-btn urgent" onclick="showPage('urgent')">🚨 СРОЧНО</button>
+                <button class="nav-btn" onclick="showPage('news')">📰 Новости</button>
+                <button class="nav-btn" onclick="showPage('ops')">⚔️ Операции</button>
+                <button class="nav-btn" onclick="showPage('admin')" style="border-color:#ffc107">🔐 Админ</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="container">
+        
+        <!-- БОКОВОЕ МЕНЮ -->
+        <aside class="sidebar">
+            <h3>📂 Разделы</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" onclick="showPage('home'); return false;">🏠 Главная</a></li>
+                <li><a href="#" onclick="showPage('urgent'); return false;">🚨 Срочные новости</a></li>
+                <li><a href="#" onclick="showPage('reminders'); return false;">📌 Памятка игрока</a></li>
+                <li><a href="#" onclick="showPage('news'); return false;">📰 Все новости</a></li>
+                <li><a href="#" onclick="showPage('ops'); return false;">⚔️ Операции и ивенты</a></li>
+                <li><a href="#" onclick="showPage('leaders'); return false;">👥 Руководство</a></li>
+                <li><a href="#" onclick="showPage('ranks'); return false;">📋 Ранги (R1/R2/R3)</a></li>
+                <li><a href="#" onclick="showPage('heroes'); return false;">⚔️ Прокачка героев</a></li>
+                <li><a href="#" onclick="showPage('rules'); return false;">📜 Правила (ТОП-10, NAP)</a></li>
+                <li><a href="#" onclick="showPage('newbie'); return false;">ℹ️ Новичкам</a></li>
+                <li><a href="#" onclick="showPage('links'); return false;">🔗 Ссылки</a></li>
+                <li><a href="#" onclick="showPage('admin'); return false;" style="color:#ffc107">🔐 Админ-панель</a></li>
+            </ul>
+            
+            <h3 class="mt-20">🔗 Быстрые ссылки</h3>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <a href="https://vk.me/join/WSMZU1Z8BenQHeNHnK0BaM8yHs80LJkNqfM=" target="_blank" style="padding:10px; background:rgba(255,255,255,0.1); border-radius:8px; text-align:center;">💬 Чат ВК</a>
+                <a href="https://t.me/detigroma" target="_blank" style="padding:10px; background:rgba(255,255,255,0.1); border-radius:8px; text-align:center;">✈️ Чат ТГ</a>
+            </div>
+        </aside>
+
+        <!-- ОСНОВНОЙ БЛОК -->
+        <main class="main-content">
+
+            <!-- 🏠 ГЛАВНАЯ -->
+            <div id="home" class="page active">
+                <div class="urgent-banner">
+                    <h3>🚨 СРОЧНО: Операция «Возврат» <span class="time">Сегодня, 19:00</span></h3>
+                    <p>Все онлайн к 19:00! Цель: город рядом с [228]. Координация в ТГ-чате. План и инструкции — в разделе «Операции».</p>
+                </div>
+
+                <h2 style="color:#e94560; margin-bottom:20px;">📰 Последние новости</h2>
+                
+                <div class="news-card">
+                    <h4>✅ Операция «Гром» успешно завершена</h4>
+                    <div class="news-meta"><span>📅 28 марта</span><span>👤 Лидер</span><span class="badge event">Ивент</span></div>
+                    <p>Благодарим всех за участие! Город отбит, союз  подтверждён. Детали разбора — в разделе «Операции».</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>🎯 Новые назначения в руководстве</h4>
+                    <div class="news-meta"><span>📅 25 марта</span><span>👤 Лидер</span><span class="badge info">Назначение</span></div>
+                    <p>Настя официально назначена со-лидером. Поздравляем! 🎉</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>📋 Обновлены правила ТОП-10</h4>
+                    <div class="news-meta"><span>📅 20 марта</span><span>👤 R5</span><span class="badge info">Правила</span></div>
+                    <p>Добавлены пункты по координации с альянсами топ-10. Обязательно к прочтению!</p>
+                </div>
+
+                <h2 style="color:#e94560; margin:30px 0 20px;">⚔️ Ближайшие операции</h2>
+                
+                <div class="news-card">
+                    <h4>🎯 Операция «Щит» — защита города</h4>
+                    <div class="news-meta"><span>📅 2 апреля, 20:00</span><span class="badge event">Сбор</span></div>
+                    <p>Подготовка к возможной ответке. Все онлайн, макс. щиты, координированная оборона.</p>
+                </div>
+            </div>
+
+            <!-- 🚨 СРОЧНЫЕ НОВОСТИ -->
+            <div id="urgent" class="page">
+                <h2 style="color:#ff4545; margin-bottom:20px;">🚨 СРОЧНЫЕ УВЕДОМЛЕНИЯ</h2>
+                
+                <div class="urgent-banner">
+                    <h3>⚠ ВНИМАНИЕ: Активность врага <span class="time">Только что</span></h3>
+                    <p>  Усилить разведку, не ходить в соло. Координация — в ТГ.</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>🔥 Срочный сбор: 19:00 сегодня</h4>
+                    <div class="news-meta"><span>📅 30 марта</span><span>👤 Лидер</span><span class="badge urgent">СБОР</span></div>
+                    <p>Все участники онлайн к 19:00. Бьем крысу. Инструкции в закрепе ТГ.</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>📢 Изменение правил NAP</h4>
+                    <div class="news-meta"><span>📅 29 марта</span><span>👤 R5</span><span class="badge info">Правила</span></div>
+                    <p>С сегодняшнего дня запрет на атаку игроков любого альянса без согласования с руководством.</p>
+                </div>
+            </div>
+
+            <!-- 📰 ВСЕ НОВОСТИ -->
+            <div id="news" class="page">
+                <h2 style="color:#e94560; margin-bottom:20px;">📰 АРХИВ НОВОСТЕЙ</h2>
+                
+                <div class="news-card">
+                    <h4>✅ Операция «Гром» успешно завершена</h4>
+                    <div class="news-meta"><span>📅 28 марта</span><span>👤 Лидер</span><span class="badge event">Ивент</span></div>
+                    <p>Благодарим всех за участие! Город отбит, союз подтверждён. Детали разбора — в разделе «Операции».</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>🎯 Новые назначения в руководстве</h4>
+                    <div class="news-meta"><span>📅 25 марта</span><span>👤 Лидер</span><span class="badge info">Назначение</span></div>
+                    <p>Настя официально назначена со-лидером. Поздравляем! 🎉</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>📋 Обновлены правила ТОП-10</h4>
+                    <div class="news-meta"><span>📅 20 марта</span><span>👤 R5</span><span class="badge info">Правила</span></div>
+                    <p>Добавлены пункты по координации с альянсами топ-10. Обязательно к прочтению!</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>🌍 Добро пожаловать новичкам!</h4>
+                    <div class="news-meta"><span>📅 15 марта</span><span>👤 R4</span><span class="badge info">Гайд</span></div>
+                    <p>Новые участники: читайте раздел «Новичкам», задавайте вопросы в чате, не стесняйтесь!</p>
+                </div>
+            </div>
+
+            <!-- ⚔️ ОПЕРАЦИИ -->
+            <div id="ops" class="page">
+                <h2 style="color:#e94560; margin-bottom:20px;">⚔️ ОПЕРАЦИИ И ИВЕНТЫ</h2>
+                
+                <div class="news-card">
+                    <h4>🎯 Операция «Возврат» — ПЛАН</h4>
+                    <div class="news-meta"><span>📅 30 марта, 19:00</span><span class="badge urgent">АКТИВНА</span></div>
+                    <p><strong>Цель:</strong> Город<br>
+                    <strong>Координатор:</strong> Настя + Лидер<br>
+                    <strong>Союзники:</strong> кто то <br><br>
+                    <strong>План:</strong><br>
+                    1. Сбор к 19:00, проверка готовности<br>
+                    2. Одновременная атака на город (все участники)<br>
+                    3. отвлекающие<br>
+                    4. После захвата — зачистка окрестностей<br><br>
+                    <strong>Важно:</strong> Ур. ≤14 не атакуют сильных. Вторые отряды — только на слабых.</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>🛡️ Операция «Щит» — подготовка</h4>
+                    <div class="news-meta"><span>📅 2 апреля, 20:00</span><span class="badge event">ПЛАНИРУЕТСЯ</span></div>
+                    <p>Защита от возможной ответки. Макс. щиты, лечение, координированная оборона. Детали — за 2 часа до начала.</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>🏆 Еженедельный ивент: «Охота за ресурсами»</h4>
+                    <div class="news-meta"><span>📅 Каждое воскресенье</span><span class="badge event">ПОВТОР</span></div>
+                    <p>Сбор ресурсов, помощь новичкам, бонусы активным. Подробности — в чате в субботу.</p>
+                </div>
+            </div>
+
+           <!-- 👥 РУКОВОДСТВО -->
+<div id="leaders" class="page">
+    <h2 style="color:#e94560; margin-bottom:20px;">👥 РУКОВОДЯЩИЙ СОСТАВ</h2>
+    <p style="color:#888; margin-bottom:30px;">Сервер 110 | Дети Грома</p>
+    
+    <!-- R5 ЛИДЕР -->
+    <div class="news-card" style="border:3px solid #ffd700; background:linear-gradient(135deg, rgba(255,215,0,0.1), rgba(233,69,96,0.1));">
+        <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:20px;">
+            <div style="font-size:3em;">👑</div>
+            <div>
+                <h3 style="color:#ffd700; margin-bottom:5px;">R5 — ЛИДЕР</h3>
+                <div style="font-size:1.3em; color:#fff; font-weight:bold;">Antidolgi24ru</div>
+            </div>
+        </div>
+        
+        <h4 style="color:#e94560; margin:15px 0 10px;">🎯 Основные обязанности:</h4>
+        <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+            <li>Общее руководство и стратегия альянса <strong>(вместе с Богиней)</strong></li>
+            <li>Финальное решение в спорных ситуациях</li>
+            <li>Назначение/снятие руководителей R4</li>
+            <li>Переговоры с ТОП альянсами</li>
+            <li>Утверждение союзов, захватов и атак</li>
+            <li>Контроль работы всех R4</li>
+            <li>Представление альянса на сервере</li>
+        </ul>
+    </div>
+
+    <!-- R4 ОСНОВНОЙ СОСТАВ -->
+    <h3 style="color:#e94560; margin:30px 0 20px; padding-bottom:10px; border-bottom:2px solid rgba(233,69,96,0.3);">⚡ R4 — ОСНОВНОЙ СОСТАВ</h3>
+    
+    <div class="leaders-grid">
+        <!-- ДИПЛОМАТ -->
+        <div class="leader-card" style="border-color:#4ecdc4;">
+            <div style="font-size:2.5em; margin-bottom:10px;">💬</div>
+            <div class="role" style="color:#4ecdc4; font-size:1.1em;">🤝 ДИПЛОМАТ</div>
+            <div class="name" style="margin:10px 0;">Мария22</div>
+            <div class="name" style="margin:5px 0;">gnilaiachern</div>
+            <div style="margin-top:15px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
+                <div style="font-size:0.9em; color:#888; margin-bottom:10px;"><strong>Обязанности:</strong></div>
+                <ul style="font-size:0.85em; color:#aaa; padding-left:15px; line-height:1.6; text-align:left;">
+                    <li>Дипломатические переговоры</li>
+                    <li>Урегулирование конфликтов</li>
+                    <li>Вербовка новых игроков</li>
+                    <li>Подготовка к ивентам (вместе с Воеводой)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- БОГИНЯ -->
+        <div class="leader-card" style="border-color:#ffd700;">
+            <div style="font-size:2.5em; margin-bottom:10px;">🌟</div>
+            <div class="role" style="color:#ffd700; font-size:1.1em;">⭐ БОГИНЯ</div>
+            <div class="name" style="margin:10px 0;">Ривелия</div>
+            <div style="margin-top:15px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
+                <div style="font-size:0.9em; color:#888; margin-bottom:10px;"><strong>Обязанности:</strong></div>
+                <ul style="font-size:0.85em; color:#aaa; padding-left:15px; line-height:1.6; text-align:left;">
+                    <li>Организация ивентов по развитию</li>
+                    <li>Помощь новичкам (гайды, советы)</li>
+                    <li>Координация внутренней жизни</li>
+                    <li>Проведение квестов и конкурсов</li>
+                    <li>Поддержание дружественной атмосферы</li>
+                    <li>Контроль ежедневных квестов</li>
+                    <li>Мотивация игроков к развитию</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ВЕРБОВЩИК -->
+        <div class="leader-card" style="border-color:#45b7d1;">
+            <div style="font-size:2.5em; margin-bottom:10px;">👥</div>
+            <div class="role" style="color:#45b7d1; font-size:1.1em;">🎯 ВЕРБОВЩИК</div>
+            <div class="name" style="margin:10px 0;">Evgeniaa2026</div>
+            <div class="name" style="margin:5px 0;">ARus</div>
+            <div class="name" style="margin:5px 0;">Мария22</div>
+            <div style="margin-top:15px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
+                <div style="font-size:0.9em; color:#888; margin-bottom:10px;"><strong>Обязанности:</strong></div>
+                <ul style="font-size:0.85em; color:#aaa; padding-left:15px; line-height:1.6; text-align:left;">
+                    <li>Привлечение игроков в альянс</li>
+                    <li>Объяснение правил альянса и сервера</li>
+                    <li>Выдача ссылок (ВК, ТГ, сайт)</li>
+                    <li>Адаптация новичков</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ВОЕВОДА -->
+        <div class="leader-card" style="border-color:#ff6b6b;">
+            <div style="font-size:2.5em; margin-bottom:10px;">⚔️</div>
+            <div class="role" style="color:#ff6b6b; font-size:1.1em;">🛡️ ВОЕВОДА</div>
+            <div class="name" style="margin:10px 0;">DoktorDik</div>
+            <div style="margin-top:15px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
+                <div style="font-size:0.9em; color:#888; margin-bottom:10px;"><strong>Обязанности:</strong></div>
+                <ul style="font-size:0.85em; color:#aaa; padding-left:15px; line-height:1.6; text-align:left;">
+                    <li>Контроль атак (запрет на атаки союзников)</li>
+                    <li>Защита караванов сервера</li>
+                    <li>Обучение атакам на других серверах</li>
+                    <li>Урегулирование конфликтов с альянсами</li>
+                    <li>Подготовка к ивентам (вместе с Марией22)</li>
+                    <li>Обучение тактике и стратегии</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ОБЩИЕ ЗАДАЧИ ВСЕХ R4 -->
+    <h3 style="color:#e94560; margin:40px 0 20px; padding-bottom:10px; border-bottom:2px solid rgba(233,69,96,0.3);">📋 ОБЩИЕ ЗАДАЧИ ВСЕХ R4</h3>
+    
+    <div class="rules-grid">
+        <div class="rule-card">
+            <h4 style="color:#4ecdc4; margin-bottom:15px;"> Модерация</h4>
+            <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+                <li>Модерация чатов (ВК, Telegram)</li>
+                <li>Контроль онлайн-активности</li>
+                <li>Оперативные дежурства (кто-то всегда на связи)</li>
+            </ul>
+        </div>
+
+        <div class="rule-card">
+            <h4 style="color:#4ecdc4; margin-bottom:15px;">🔹 Контроль</h4>
+            <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+                <li>Соблюдение правил (запрет атак на союзников)</li>
+                <li>Оперативное реагирование на атаки</li>
+                <li>Сбор статистики (войны, развитие, помощь)</li>
+            </ul>
+        </div>
+
+        <div class="rule-card">
+            <h4 style="color:#4ecdc4; margin-bottom:15px;">🔹 Поддержка</h4>
+            <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+                <li>Помощь игрокам в сложных ситуациях</li>
+                <li>Обучение новичков (каждый по своему направлению)</li>
+                <li>Сбор и передача информации лидеру</li>
+            </ul>
+        </div>
+
+        <div class="rule-card">
+            <h4 style="color:#4ecdc4; margin-bottom:15px;">🔹 Координация</h4>
+            <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+                <li>Участие в совещаниях руководства</li>
+                <li>Подача примера остальным членам</li>
+                <li>Координация между направлениями</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- КОНТАКТЫ -->
+    <h3 style="color:#e94560; margin:40px 0 20px; padding-bottom:10px; border-bottom:2px solid rgba(233,69,96,0.3);">📞 СВЯЗЬ С РУКОВОДСТВОМ</h3>
+    
+    <div class="links-grid">
+        <div class="link-card">
+            <div class="icon">💬</div>
+            <div class="platform">ВКонтакте</div>
+            <p>Основной чат альянса</p>
+            <a href="https://vk.me/join/WSMZU1Z8BenQHeNHnK0BaM8yHs80LJkNqfM=" target="_blank">Перейти в чат</a>
+        </div>
+        
+        <div class="link-card">
+            <div class="icon">✈️</div>
+            <div class="platform">Telegram</div>
+            <p>Оперативные уведомления</p>
+            <a href="https://t.me/detigroma" target="_blank">Перейти в чат</a>
+        </div>
+    </div>
+
+    <div class="urgent-banner mt-20">
+        <h3>💡 ВАЖНО</h3>
+        <p>Каждый R4 отвечает за своё направление. Если у вас есть вопрос — обращайтесь к соответствующему руководителю. 
+        Если никто не отвечает — пишите Лидеру или Богине.</p>
+    </div>
+</div>
+
+            <!-- 📜 ПРАВИЛА -->
+            <div id="rules" class="page">
+                <h2 style="color:#e94560; margin-bottom:20px;">📜 ПРАВИЛА АЛЬЯНСА</h2>
+                <p style="color:#888; margin-bottom:20px;">Сервер 110 | Дети Грома</p>
+                
+                <div class="rules-grid">
+                    <div class="rule-card">
+                        <h4>🏆 ТОП-10 (RU)</h4>
+                        <ul>
+                            <li>Запрещена атака на игроков из ТОП-10 без согласования с <code>R4/R5</code></li>
+                            <li>При конфликте с ТОП-10 — немедленно сообщить руководству</li>
+                            <li>Не провоцировать крупные альянсы без стратегии</li>
+                            <li>Уважать договорённости с союзниками</li>
+                        </ul>
+                    </div>
+
+                    <div class="rule-card">
+                        <h4>🌍 TOP-10 (EN)</h4>
+                        <ul>
+                            <li>No attacks on TOP-10 players without <code>R4/R5</code> approval</li>
+                            <li>Report any conflict with TOP-10 to leadership immediately</li>
+                            <li>Do not provoke major alliances without strategy</li>
+                            <li>Respect agreements with allied clans</li>
+                        </ul>
+                    </div>
+
+                    <div class="rule-card">
+                        <h4>🤝 NAP (Неагрессия)</h4>
+                        <ul>
+                            <li>Со всеми альянсами сервера — режим NAP</li>
+                            <li>Любые действия против них — только с разрешения <code>R4/R5</code></li>
+                            <li>При нарушении — санкции вплоть до кика</li>
+                        </ul>
+                    </div>
+
+                    <div class="rule-card">
+                        <h4>⚔️ Боевые правила</h4>
+                        <ul>
+                            <li>Выполнять команды координатора в операции</li>
+                            <li>Не атаковать в соло без приказа</li>
+                            <li>Ур. ≤14 не идут на противников выше своего уровня</li>
+                            <li>Вторые отряды — только на слабых целях</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="urgent-banner mt-20">
+                    <h3>⚠ Нарушение правил</h3>
+                    <p>За нарушения: предупреждение → временная блокировка прав → кик из альянса. 
+                    Спорные ситуации решает <code>R4/R5</code>.</p>
+                </div>
+            </div>
+
+            <!-- ℹ️ НОВИЧКАМ -->
+            <div id="newbie" class="page">
+                <h2 style="color:#e94560; margin-bottom:20px;">ℹ️ НОВИЧКАМ</h2>
+                <p style="color:#888; margin-bottom:20px;">Сервер 110 | Дети Грома</p>
+                
+                <div class="news-card">
+                    <h4>🚀 Первые шаги в альянсе</h4>
+                    <p><strong>1.</strong> Прочитай правила в разделе «Правила»<br>
+                    <strong>2.</strong> Напиши в чат: «Привет, я новичок» — тебе помогут!<br>
+                    <strong>3.</strong> Участвуй в операциях — даже с малыми силами ты полезен<br>
+                    <strong>4.</strong> Задавай вопросы — глупых вопросов не бывает</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>💡 Полезные советы</h4>
+                    <p>• Всегда держи щит перед сном или уходом из игры<br>
+                    • Копи ресурсы на лечение после атак<br>
+                    • Не ходи в соло в опасные зоны без разведки<br>
+                    • Следи за чатом — важные объявления в закрепе</p>
+                </div>
+
+                <div class="news-card">
+                    <h4>🎯 Как развиваться быстрее</h4>
+                    <p>• Участвуй в еженедельных ивентах альянса<br>
+                    • Проси помощи у старших — мы поможем с ресурсами/советом<br>
+                    • Изучай гайды в таблице: <a href="https://docs.google.com/spreadsheets/d/1tMaWfanJMbBER9dLekHoEDbX3YsjUEluzql9EH0trsc/edit" target="_blank">наша база знаний</a><br>
+                    • Будь активен — за активность дают бонусы и повышения!</p>
+                </div>
+
+                <div class="links-grid mt-20">
+                    <div class="link-card">
+                        <div class="icon">📚</div>
+                        <div class="platform">База знаний</div>
+                        <a href="https://docs.google.com/spreadsheets/d/1tMaWfanJMbBER9dLekHoEDbX3YsjUEluzql9EH0trsc/edit" target="_blank">Открыть таблицу</a>
+                    </div>
+                    <div class="link-card">
+                        <div class="icon">❓</div>
+                        <div class="platform">Задать вопрос</div>
+                        <a href="https://t.me/detigroma" target="_blank">Написать в чат</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🔗 ССЫЛКИ -->
+            <div id="links" class="page">
+                <h2 style="color:#e94560; margin-bottom:20px;">🔗 ПОЛЕЗНЫЕ ССЫЛКИ</h2>
+                <p style="color:#888; margin-bottom:20px;">Сервер 110 | Дети Грома</p>
+                
+                <div class="links-grid">
+                    <div class="link-card">
+                        <div class="icon">💬</div>
+                        <div class="platform">ВКонтакте</div>
+                        <p>Основной чат альянса</p>
+                        <a href="https://vk.me/join/WSMZU1Z8BenQHeNHnK0BaM8yHs80LJkNqfM=" target="_blank">Перейти в чат</a>
+                    </div>
+                    
+                    <div class="link-card">
+                        <div class="icon">✈️</div>
+                        <div class="platform">Telegram</div>
+                        <p>Оперативные уведомления</p>
+                        <a href="https://t.me/detigroma" target="_blank">Перейти в чат</a>
+                    </div>
+                    
+                    <div class="link-card">
+                        <div class="icon">📊</div>
+                        <div class="platform">База знаний</div>
+                        <p>Правила, гайды, статистика</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1tMaWfanJMbBER9dLekHoEDbX3YsjUEluzql9EH0trsc/edit" target="_blank">Открыть таблицу</a>
+                    </div>
+                    
+                    <div class="link-card">
+                        <div class="icon">🌐</div>
+                        <div class="platform">Last Asylum</div>
+                        <p>Официальный сайт игры</p>
+                        <a href="https://lastasylum.com" target="_blank">Перейти на сайт</a>
+                    </div>
+                </div>
+
+                <div class="news-card mt-20">
+                    <h4>🔔 Подписка на уведомления</h4>
+                    <p>Скоро: бот будет автоматически дублировать срочные новости из сайта в ВК и ТГ. 
+                    Пока что все объявления публикуются вручную — следи за чатами!</p>
+                </div>
+            </div>
+          <!-- 📌 ПАМЯТКА ИГРОКА -->
+<div id="reminders" class="page">
+    <h2 style="color:#e94560; margin-bottom:20px;">📌 ПАМЯТКА ИГРОКА</h2>
+    <p style="color:#888; margin-bottom:30px;">Сервер 110 | Дети Грома | Важные напоминания</p>
+    
+    <!-- ВЗАИМОПОМОЩЬ -->
+    <div class="news-card" style="border-left-color:#4ecdc4;">
+        <h4 style="color:#4ecdc4; margin-bottom:15px;">🤝 ВЗАИМОПОМОЩЬ И ЗАЩИТА</h4>
+        <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+            <li>Не забываем активно помогать друг другу в развитии и нападениях</li>
+            <li>Если на кого-то напали и вы заметили, что святилище горит — смело тушите или киньте в чат игры координаты с просьбой о помощи</li>
+            <li>Если вдруг на нас нападает другой альянс — отмечайте админов или хотя бы просто пишите об этом в чат</li>
+        </ul>
+    </div>
+
+    <!-- РЕСУРСЫ И РАЗВИТИЕ -->
+    <div class="news-card" style="border-left-color:#ffd700;">
+        <h4 style="color:#ffd700; margin-bottom:15px;">💎 РЕСУРСЫ И РАЗВИТИЕ</h4>
+        <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+            <li><strong>Совет:</strong> копите <strong>10,000 алмазов</strong> — они вам нужны для покупки VIP на 30 дней</li>
+            <li>По максимуму пытайтесь не тратить ускорения — в будущем они вам очень сильно понадобятся</li>
+            <li>Желательно не тратить энергию, которая вам падает в сумку — при атаке других кланов она очень сильно нужна</li>
+            <li>В магазинах скупаем самое главное — <strong>воронью эссенцию</strong> и прокачиваем ворона</li>
+            <li>В исследованиях <strong>НЕ качаем «Отряд 4»</strong></li>
+        </ul>
+    </div>
+
+    <!-- КАРТА И ЛОКАЦИЯ -->
+    <div class="news-card" style="border-left-color:#45b7d1;">
+        <h4 style="color:#45b7d1; margin-bottom:15px;">🗺️ КАРТА И ЛОКАЦИЯ</h4>
+        <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+            <li>Проверьте ваше местонахождение на карте — если оно далеко от пункта сбора (или города, возле которого мы тусуем), используйте перемещение поближе, иначе взаимная помощь будет труднодоступной</li>
+        </ul>
+    </div>
+
+    <!-- БОИ И АТАКИ -->
+    <div class="news-card" style="border-left-color:#ff6b6b;">
+        <h4 style="color:#ff6b6b; margin-bottom:15px;">⚔️ БОИ И АТАКИ</h4>
+        <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+            <li><strong>ЕСЛИ ВАША МОЩЬ намного слабее огромной скверны — пожалуйста, МОЛЮ, не рискуйте на неё нападать, даже штурмом!</strong> Иначе она нападёт на ваше святилище и вы будете гореть (в аду 🤭)</li>
+            <li>Мы нападаем только на тех, кто <strong>НЕ состоит в кланах</strong></li>
+            <li>При штурмах и войнах <strong>20% солдат умирает без Возрождения</strong>, остальные отправляются в лечебницу</li>
+        </ul>
+    </div>
+
+    <!-- НОВИЧКИ -->
+    <div class="news-card" style="border-left-color:#9b59b6;">
+        <h4 style="color:#9b59b6; margin-bottom:15px;">👶 НОВИЧКАМ</h4>
+        <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+            <li>Если новенькие (не боты) приходят к нам в альянс — говорите им про уведомления альянса, там есть ссылка на ВК, или пишите кого надо добавить — мы сами с этим разберёмся 🫰🏼</li>
+        </ul>
+    </div>
+
+    <!-- ПРАВИЛА И ЭТИКЕТ -->
+    <div class="news-card" style="border-left-color:#e94560;">
+        <h4 style="color:#e94560; margin-bottom:15px;">📜 ПРАВИЛА И ЭТИКЕТ</h4>
+        <ul style="color:#ccc; padding-left:20px; line-height:1.8;">
+            <li>В чате игры лучше не пытаться прямо материться — лучше меняйте одну букву, если очень хочется, так как вас ожидает временный бан от самой игры</li>
+            <li>Лучше конечно заходить в игру каждый день — если вдруг такой возможности нет, самое главное предупредите главенство об этом, чтобы мы знали ❤️‍🩹</li>
+        </ul>
+    </div>
+
+    <!-- БЫСТРЫЕ ССЫЛКИ -->
+    <div class="urgent-banner mt-20">
+        <h3>💡 НУЖНА ПОМОЩЬ?</h3>
+        <p>Если что-то непонятно — спрашивайте в чате! Руководство и опытные игроки всегда помогут.</p>
+        <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+            <a href="https://vk.me/join/WSMZU1Z8BenQHeNHnK0BaM8yHs80LJkNqfM=" target="_blank" style="padding:10px 20px; background:rgba(255,255,255,0.2); border-radius:8px; text-decoration:none; color:#fff;">💬 Чат ВК</a>
+            <a href="https://t.me/detigroma" target="_blank" style="padding:10px 20px; background:rgba(255,255,255,0.2); border-radius:8px; text-decoration:none; color:#fff;">✈️ Чат ТГ</a>
+        </div>
+    </div>
+</div>
+          <!-- ⚔️ ПРОКАЧКА ГЕРОЕВ -->
+<div id="heroes" class="page">
+    <h2 style="color:#e94560; margin-bottom:20px;">⚔️ ПРОКАЧКА ГЕРОЕВ</h2>
+    <p style="color:#888; margin-bottom:20px;">Сервер 110 | Дети Грома</p>
+    
+    <div class="news-card">
+        <h4>🛡️ Расстановка отряда</h4>
+        <p>У вас в отрядах герои должны расставиться так:</p>
+        <div style="background:rgba(0,0,0,0.3); padding:15px; border-radius:8px; margin:15px 0; text-align:center;">
+            <p style="margin:10px 0;"><strong>ПЕРВАЯ ЛИНИЯ:</strong> 2 танка (спереди) + 1 саппорт (центр)</p>
+            <p style="margin:10px 0;"><strong>ВТОРАЯ ЛИНИЯ:</strong> 2 дамагера (по бокам)</p>
+        </div>
+        <div style="text-align:center; margin:20px 0;">
+            <img src="hero-formation.png" alt="Расстановка героев" style="max-width:100%; border-radius:10px; border:2px solid #e94560;">
+            <p style="font-size:0.9em; color:#888; margin-top:10px;">Скриншот расстановки</p>
+        </div>
+        <p><strong>ВАЖНО:</strong> Вы МОЖЕТЕ «поиграться» с героями на второй линии, но на первой всегда должны стоять щиты!</p>
+    </div>
+
+    <div class="news-card">
+        <h4>🎯 Фракции и роли</h4>
+        <p>Смотрите на фракции слева-сверху в углу карточки героя:</p>
+        <ul style="margin:15px 0; padding-left:20px;">
+            <li><strong style="color:#e94560;">2 танка (щитовики)</strong> — всегда вперёд</li>
+            <li><strong style="color:#4ecdc4;">2 дамагера</strong> (мечи/клинки/стрелы) — по бокам</li>
+            <li><strong style="color:#45b7d1;">1 саппорт</strong> (маг/жрица) — центр</li>
+        </ul>
+    </div>
+
+    <div class="urgent-banner">
+        <h3>⚠️ ОБЯЗАТЕЛЬНО ПЕРЕД БОЁМ</h3>
+        <p>Перед боем/штурмом/караваном/ареной проверьте, в какой последовательности стоят герои! Неправильная расстановка = проигрыш.</p>
+    </div>
+
+    <div class="news-card">
+        <h4>🦾 Золотая экипировка</h4>
+        <p><strong>Спереди идут два щитовика</strong> — это стена вашего отряда, они должны ЗАЩИЩАТЬ.</p>
+        <p>Для их максимальной защиты нужны:</p>
+        <ul style="margin:15px 0; padding-left:20px;">
+            <li>🛡️ <strong>Доспехи</strong> (золотые — приоритет!)</li>
+            <li>👢 <strong>Ботинки</strong> (да, почему-то они тоже важны для защиты 😂)</li>
+        </ul>
+        
+        <p style="margin-top:20px;"><strong>Задний отряд — атакующие:</strong> два условных мечника и маг.</p>
+        <p>Для их атаки нужны:</p>
+        <ul style="margin:15px 0; padding-left:20px;">
+            <li>⚔️ <strong>Мечи</strong> (основное оружие)</li>
+            <li>🧤 <strong>Наручи/перчатки</strong> (дают атаку)</li>
+        </ul>
+    </div>
+
+    <div class="news-card">
+        <h4>🔄 Распределение экипировки</h4>
+        <div style="background:rgba(255,193,7,0.1); padding:15px; border-radius:8px; border-left:4px solid #ffc107; margin:15px 0;">
+            <p><strong>ВАЖНО:</strong> Если у кого-то меч у Артура, а доспех у кого-то другого — <strong>МЕНЯЙТЕ!</strong></p>
+            <p style="margin-top:10px;">Золотой доспех должен быть на танке, золотой меч — на дамагере.</p>
+        </div>
+        <div style="text-align:center; margin:20px 0;">
+            <img src="hero-equipment.png" alt="Экипировка героя" style="max-width:100%; border-radius:10px; border:2px solid #e94560;">
+            <p style="font-size:0.9em; color:#888; margin-top:10px;">Пример правильной экипировки</p>
+        </div>
+    </div>
+
+    <div class="news-card">
+        <h4>📸 Галерея героев</h4>
+        <p>Примеры ваших героев и их текущий уровень:</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:15px; margin-top:15px;">
+            <div style="text-align:center;">
+                <img src="hero1.png" alt="Герой 1" style="max-width:100%; border-radius:8px;">
+                <p style="font-size:0.9em; margin-top:5px;">Артур (ур.91)</p>
+            </div>
+            <div style="text-align:center;">
+                <img src="hero2.png" alt="Герой 2" style="max-width:100%; border-radius:8px;">
+                <p style="font-size:0.9em; margin-top:5px;">Коллекция героев</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- 🔐 АДМИН-ПАНЕЛЬ -->
+            <div id="admin" class="page">
+                <div id="adminLogin">
+                    <div class="login-form">
+                        <h3 style="color:#e94560; margin-bottom:20px;">🔐 Вход для руководства</h3>
+                        <input type="password" id="adminPass" placeholder="Введите пароль">
+                        <button class="btn-submit" onclick="checkAdmin()">Войти</button>
+                        <p id="loginError" style="color:#ff4545; margin-top:10px; display:none;">Неверный пароль</p>
+                    </div>
+                </div>
+
+                <div id="adminPanel" class="hidden">
+                    <h2 style="color:#e94560; margin-bottom:20px;">🔐 АДМИН-ПАНЕЛЬ</h2>
+                    <p style="color:#888; margin-bottom:20px;">Сервер 110 | Только для руководства</p>
+                    
+                    <div class="admin-form">
+                        <h3>📝 Опубликовать новость</h3>
+                        <div class="form-group">
+                            <label>Заголовок</label>
+                            <input type="text" id="newsTitle" placeholder="Краткий заголовок новости">
+                        </div>
+                        <div class="form-group">
+                            <label>Тип</label>
+                            <select id="newsType">
+                                <option value="info">📰 Обычная новость</option>
+                                <option value="urgent">🚨 Срочное уведомление</option>
+                                <option value="event">⚔️ Операция/ивент</option>
+                                <option value="rules">📜 Обновление правил</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Текст</label>
+                            <textarea id="newsText" placeholder="Основной текст новости..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Отправить уведомление в чаты</label>
+                            <select id="sendNotification">
+                                <option value="no">❌ Не отправлять</option>
+                                <option value="tg">✈️ Только Telegram</option>
+                                <option value="vk">💬 Только ВКонтакте</option>
+                                <option value="both" selected>✅ В оба чата</option>
+                            </select>
+                        </div>
+                        <button class="btn-submit" onclick="publishNews()">📤 Опубликовать</button>
+                    </div>
+
+                    <div class="news-card">
+                        <h4>ℹ️ Как это работает сейчас</h4>
+                        <p>• Заполни форму и нажми «Опубликовать»<br>
+                        • Новость появится на сайте в соответствующем разделе<br>
+                        • Уведомление в чаты отправляется <strong>вручную</strong> (скопируй текст и отправь в ВК/ТГ)<br><br>
+                        <strong>В будущем:</strong> бот будет отправлять уведомления автоматически через API.</p>
+                    </div>
+
+                    <button class="btn-submit" onclick="logoutAdmin()" style="background:#666; margin-top:20px;">🚪 Выйти</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ФУТЕР -->
+    <footer>
+        <div class="server-footer">🔥 Дети Грома | Сервер 110 | Last Asylum</div>
+        <p>© 2026 Альянс «Дети Грома». Все права защищены.</p>
+        <p style="margin-top:10px; font-size:0.85em; color:#555;">
+            Сайт в разработке. Функция авто-уведомлений будет добавлена позже.
+        </p>
+    </footer>
+
+    <!-- СКРИПТЫ -->
+    <script>
+        // === ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ ===
+        function showPage(pageId) {
+            // Скрыть все страницы
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Показать нужную
+            document.getElementById(pageId).classList.add('active');
+            
+            // Обновить активные кнопки
+            document.querySelectorAll('.nav-btn, .sidebar-menu a').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event?.target?.classList?.add('active');
+        }
+
+        // === АДМИН: ЛОГИН ===
+        const ADMIN_PASS = "grom2026"; // ⚠️ Поменяй на свой пароль!
+        
+        function checkAdmin() {
+            const input = document.getElementById('adminPass').value;
+            if (input === ADMIN_PASS) {
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                document.getElementById('loginError').style.display = 'none';
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function logoutAdmin() {
+            document.getElementById('adminLogin').classList.remove('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('adminPass').value = '';
+        }
+
+        // === АДМИН: ПУБЛИКАЦИЯ НОВОСТИ (демо-режим) ===
+        function publishNews() {
+            const title = document.getElementById('newsTitle').value;
+            const type = document.getElementById('newsType').value;
+            const text = document.getElementById('newsText').value;
+            const notify = document.getElementById('sendNotification').value;
+
+            if (!title || !text) {
+                alert('Заполни заголовок и текст!');
+                return;
+            }
+
+            // ⚠️ В реальном проекте здесь будет отправка на сервер
+            // Сейчас — только имитация и инструкция
+            
+            let message = `✅ Новость опубликована на сайте!\n\n`;
+            message += `📰 Заголовок: ${title}\n`;
+            message += `📝 Текст: ${text.substring(0, 100)}...\n\n`;
+            
+            if (notify !== 'no') {
+                message += `🔔 Уведомление: ${notify === 'both' ? 'ВК + ТГ' : notify === 'tg' ? 'Telegram' : 'ВКонтакте'}\n`;
+                message += `\n⚠️ Сейчас уведомления отправляются вручную:\n`;
+                message += `1. Скопируй текст новости\n`;
+                message += `2. Отправь в чат ${notify === 'both' ? 'ВК и ТГ' : notify === 'tg' ? 'Telegram' : 'ВКонтакте'}\n`;
+                message += `3. Готово!`;
+            }
+
+            alert(message);
+            
+            // Очистить форму
+            document.getElementById('newsTitle').value = '';
+            document.getElementById('newsText').value = '';
+        }
+
+        // === СЕРВЕР-СЕЛЕКТОР (заглушка для будущего) ===
+        document.getElementById('serverSelect').addEventListener('change', function() {
+            if (this.value !== '110') {
+                alert('🔜 Другие сервера будут доступны после запуска мульти-серверной версии!');
+                this.value = '110';
+            }
+        });
+
+        // === ИНИЦИАЛИЗАЦИЯ ===
+        // Показать главную при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
+        });
+    </script>
+</body>
+</html>
